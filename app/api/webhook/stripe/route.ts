@@ -1,4 +1,5 @@
 import { createOrder } from "@/lib/actions/order.actions";
+import { error } from "console";
 import { NextResponse } from "next/server";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -9,9 +10,9 @@ export async function POST(request: Request) {
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event;
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
   } catch (err) {
-    NextResponse.json({ message: "webhook error" });
+    NextResponse.json({ message: "webhook error", error: error });
     return;
   }
 
