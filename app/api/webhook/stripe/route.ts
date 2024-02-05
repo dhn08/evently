@@ -1,9 +1,7 @@
 import { createOrder } from "@/lib/actions/order.actions";
 import { NextResponse } from "next/server";
 
-const stripe = require("stripe")("sk_test_...");
-const express = require("express");
-const app = express();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request: Request) {
   const body = await request.text();
