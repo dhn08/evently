@@ -13,7 +13,7 @@ const ProfilePage = async () => {
   const organizedEvents = await getEventsByUser({ userId, page: 1 });
   const orders = await getOrdersByUser({ userId, page: 1 });
   const orderedEvents = orders?.data.map((order: IOrder) => {
-    order.event || [];
+    return order.event || [];
   });
   return (
     <>
