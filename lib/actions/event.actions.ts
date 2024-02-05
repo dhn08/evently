@@ -49,6 +49,9 @@ export const createEvent = async ({
     handleError(error);
   }
 };
+const getCategoryByName = async (name: string) => {
+  return Category.findOne({ name: { $regex: name, $options: "i" } });
+};
 export const deleteEvent = async ({ eventId, path }: DeleteEventParams) => {
   try {
     await connectToDatabase();
@@ -125,7 +128,19 @@ export const getAllEvents = async ({
 }: GetAllEventsParams) => {
   try {
     await connectToDatabase();
-    const conditions = {};
+
+    const titleCondition = query
+      ? { title: { $regex: query, $options: "i" } }
+      : {};
+    const categoryCondition = category
+      ? await getCategoryByName(category)
+      : null;
+    const conditions = {
+      $and: [
+        titleCondition,
+        categoryCondition ? { category: categoryCondition._id } : {},
+      ],
+    };
     const eventsQuery = Event.find(conditions)
       .sort({ createdAt: "desc" })
       .skip(0)
