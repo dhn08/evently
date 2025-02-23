@@ -50,15 +50,14 @@ export const createOrder = async (order: CreateOrderParams) => {
   try {
     await connectToDatabase();
     const test = { ...order, event: order.eventId, buyer: order.buyerId };
-    console.log("Test", test);
+    // console.log("Test", test);
     const newOrder = await Order.create({
       ...order,
-      event: new mongoose.Types.ObjectId(order.eventId),
-      buyer: new mongoose.Types.ObjectId(order.buyerId),
+      event: order.eventId,
+      buyer: order.buyerId,
     });
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
-    console.log("Han ji error");
     handleError(error);
   }
 };
