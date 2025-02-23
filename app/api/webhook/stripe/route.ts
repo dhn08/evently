@@ -20,6 +20,7 @@ export async function POST(request: Request) {
   // Handle the event
   if (eventType === "checkout.session.completed") {
     const { id, amount_total, metadata } = event.data.object;
+    console.log("inside webhook metadata : ", metadata);
     const order = {
       stripeId: id,
       eventId: metadata?.eventId || "",
