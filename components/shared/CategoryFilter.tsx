@@ -71,7 +71,7 @@ const CategoryFilter = () => {
             return (
               <SelectItem
                 className="select-item p-regular-14 "
-                value={category._id}
+                value={category.name}
                 key={category._id}
               >
                 {category.name}
